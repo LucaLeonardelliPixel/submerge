@@ -28,15 +28,17 @@ const HeroSub: FC<HeroSubProps> = ({ slice }) => {
         <CustomButton onGameCreated={setIsGameCreated} />
       </div>
 
-      {/* --- FORM IN FONDO (Condizionale) --- */}
+      {/* --- FORM IN FONDO --- */}
       <div className={`
         mb-16 pb-8 transition-all duration-1000 ease-in-out
         ${isGameCreated ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20 pointer-events-none"}
       `}> 
         <p className="text-[#172459]/50 text-center font-bold mb-3 tracking-widest text-sm">
-          OR JOIN A PRIVATE ROOM
+          JOIN A PRIVATE ROOM
         </p>
-        <JoinGameInput />
+        
+        {/* PASSIAMO IL LINK QUI */}
+        <JoinGameInput link={slice.primary.cta_link} />
       </div>
     </section>
   );

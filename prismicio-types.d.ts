@@ -69,6 +69,71 @@ type ContentRelationshipFieldWithData<
   >;
 }[Exclude<TCustomType[number], string>["id"]];
 
+type GamepageDocumentDataSlicesSlice = PlayerSetupSlice;
+
+/**
+ * Content for Gamepage documents
+ */
+interface GamepageDocumentData {
+  /**
+   * Slice Zone field in *Gamepage*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: gamepage.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<GamepageDocumentDataSlicesSlice>; /**
+   * Meta Title field in *Gamepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: gamepage.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Gamepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: gamepage.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *Gamepage*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: gamepage.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * Gamepage document from Prismic
+ *
+ * - **API ID**: `gamepage`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type GamepageDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<GamepageDocumentData>,
+    "gamepage",
+    Lang
+  >;
+
 type LandingPageDocumentDataSlicesSlice = HeroSubSlice;
 
 /**
@@ -134,7 +199,7 @@ export type LandingPageDocument<Lang extends string = string> =
     Lang
   >;
 
-export type AllDocumentTypes = LandingPageDocument;
+export type AllDocumentTypes = GamepageDocument | LandingPageDocument;
 
 /**
  * Primary content in *HeroSub → Default → Primary*
@@ -217,6 +282,36 @@ export type HeroSubSlice = prismic.SharedSlice<
   HeroSubSliceVariation
 >;
 
+/**
+ * Default variation for PlayerSetup Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PlayerSetupSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Record<string, never>,
+  never
+>;
+
+/**
+ * Slice variation for *PlayerSetup*
+ */
+type PlayerSetupSliceVariation = PlayerSetupSliceDefault;
+
+/**
+ * PlayerSetup Shared Slice
+ *
+ * - **API ID**: `player_setup`
+ * - **Description**: PlayerSetup
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PlayerSetupSlice = prismic.SharedSlice<
+  "player_setup",
+  PlayerSetupSliceVariation
+>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -238,6 +333,9 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
+      GamepageDocument,
+      GamepageDocumentData,
+      GamepageDocumentDataSlicesSlice,
       LandingPageDocument,
       LandingPageDocumentData,
       LandingPageDocumentDataSlicesSlice,
@@ -246,6 +344,9 @@ declare module "@prismicio/client" {
       HeroSubSliceDefaultPrimary,
       HeroSubSliceVariation,
       HeroSubSliceDefault,
+      PlayerSetupSlice,
+      PlayerSetupSliceVariation,
+      PlayerSetupSliceDefault,
     };
   }
 }

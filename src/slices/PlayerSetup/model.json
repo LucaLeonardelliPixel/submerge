@@ -1,0 +1,16 @@
+{
+  "id": "player_setup",
+  "type": "SharedSlice",
+  "name": "PlayerSetup",
+  "description": "PlayerSetup",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": ""
+    }
+  ]
+}
